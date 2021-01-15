@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Filings</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <input #uploads (change)="onChange(uploads.files)"
+        value="process" type="file" accept=".csv" #file hidden>
+        <button (click)="file.click()" type="button" class="btn btn-sm btn-outline-secondary">Import</button>
+        <button (click)="saveDb()" type="button" class="btn btn-sm btn-outline-secondary">Export to DB</button>
+      </div>
+      <!-- <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+        <span data-feather="calendar"></span>
+        This week
+      </button> -->
+    </div>
+  </div>
+
+<div class="container-fluid">
+    <form class="mb-5">
+        <div class="row my-1">
+            <div class="col-sm-4">
+                <label for="parcel" class="form-label">Parcel</label>
+                <input type="text" class="form-control" name="parcel" [(ngModel)]="filing.parcel">
+            </div>
+            <div class="col-sm-4">
+                <label for="key" class="form-label">Keyword</label>
+                <input disabled type="text" class="form-control" name="key" [(ngModel)]="filing.keyword">
+            </div>
+            <div class="col-sm-4">
+                <label for="status" class="form-label">Status</label>
+                <select disabled class="form-control" name="status" [(ngModel)]="filing.status">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-sm-4">
+                <label for="ley" class="form-label">Document Type</label>
+                <input type="text" class="form-control" name="doc" [(ngModel)]="filing.docType">
+            </div>
+            <div class="col-sm-4 pt-3">
+                <mat-form-field appearance="fill" >
+                    <mat-label>Begin date</mat-label>
+                    <input matInput [matDatepicker]="pickerA" (dateChange)="dateChanged($event, 'beginDate')">
+                    <mat-datepicker-toggle matSuffix [for]="pickerA"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerA></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-4 pt-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Finish date</mat-label>
+                    <input matInput [matDatepicker]="pickerB" (dateChange)="dateChanged($event, 'finishDate')">
+                    <mat-datepicker-toggle matSuffix [for]="pickerB"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerB></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+            <button (click)="search()" [disabled]="data.length <= 0" class="mx-1 float-right btn btn-primary">Search</button>
+            <button (click)="reset()" class="mx-1 float-right btn btn-danger">Reset</button>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        <h6 class="h6">Values</h6>
+        <table class="table table-dark table-sm">
+            <thead>
+                <th>DirectName</th>
+                <th>IndirectName</th>
+                <th>Pages</th>
+                <th>InstrumentNumber</th>
+                <th>DocType</th>
+                <th>Comments</th>
+                <th>RecordDate</th>
+                <th>ParcelNumber</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataList">
+                    <td>{{data.DirectName}}</td>
+                    <td>{{data.IndirectName}}</td>
+                    <td>{{data.NumberOfPages}}</td>
+                    <td>{{data.InstrumentNumber}}</td>
+                    <td>{{data.DocTypeDescription}}</td>
+                    <td>{{data.Comments2}}</td>
+                    <td>{{data.RecordDate}}</td>
+                    <td>{{data.ParcelNumber}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
